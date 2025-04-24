@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     libatk-bridge2.0-0 libcups2 && \
     rm -rf /var/lib/apt/lists/*
 
-# Poetry
+# Install Poetry
 ENV POETRY_VERSION=1.8.2
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
@@ -23,4 +23,5 @@ COPY . .
 
 RUN chmod +x wait-for-it.sh
 
-CMD ["bash", "wait-for-it.sh", "selenium-hub", "4444", "--", "python", "scraper.py"]
+# Default entrypoint will be overridden per service
+ENTRYPOINT ["bash", "wait-for-it.sh", "selenium-hub", "4444", "--"]

@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   selenium-hub:
     image: seleniarm/hub:latest
@@ -5,7 +7,7 @@ services:
     ports:
       - "4444:4444"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4444/status" ]
+      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
       interval: 5s
       timeout: 10s
       retries: 5
@@ -27,13 +29,38 @@ services:
     networks:
       - scraper-net
 
-  scraper:
+  gradireland-scraper:
     build: .
     depends_on:
       - selenium-hub
       - chrome
     environment:
       - GRID_URL=http://selenium-hub:4444/wd/hub
+    volumes:
+      - ./data:/app/data
+    command: ["python", "gradireland_scraper.py"]
+    networks:
+      - scraper-net
+
+  model-trainer:
+    build: .
+    depends_on:
+      - gradireland-scraper
+    volumes:
+      - ./data:/app/data
+    command: ["python", "train_model.py"]
+    networks:
+      - scraper-net
+
+  scraper:
+    build: .
+    depends_on:
+      - selenium-hub
+      - chrome
+      - model-trainer
+    environment:
+      - GRID_URL=http://selenium-hub:4444/wd/hub
+    command: ["python", "scraper.py"]
     networks:
       - scraper-net
 
