@@ -7,6 +7,7 @@ from transformers import (
     TrainingArguments,
     Trainer
 )
+import os
 
 MODEL_NAME = "distilbert-base-uncased"
 DATA_PATH = "data/gradireland_jobs.json"
@@ -63,6 +64,7 @@ def train_model(model, train_dataset, val_dataset):
 
 def save_model(trainer, tokenizer, output_dir=OUTPUT_DIR):
     """Save the trained model and tokenizer"""
+    os.makedirs(output_dir, exist_ok=True)
     trainer.model.save_pretrained(output_dir)
     tokenizer.save_pretrained(output_dir)
 

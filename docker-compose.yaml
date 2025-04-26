@@ -46,6 +46,7 @@ services:
       - gradireland-scraper
     volumes:
       - ./data:/app/data
+      - ./data:/app/trained_model
     command: ["conda", "run", "-n", "scraper-env", "python", "train_model.py"]
     networks:
       - scraper-net
