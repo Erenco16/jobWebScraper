@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Erenco19 <erenbasaran50@gmail.com>"]
 readme = "README.md"
-packages = [{include = "jobwebscraper"}]  # Optional: if your code is inside a folder
 
 [tool.poetry.dependencies]
 python = ">=3.9"
@@ -12,9 +11,10 @@ requests = "^2.32.3"
 beautifulsoup4 = "^4.13.4"
 selenium = "^4.31.0"
 transformers = "^4.51.3"
-datasets = "^3.5.0"
+datasets = "^2.19.0"
 scikit-learn = "^1.6.1"
 torch = "^2.7.0"
+
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

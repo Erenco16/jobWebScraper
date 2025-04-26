@@ -1,12 +1,15 @@
 FROM python:3.10-slim
 
-# Install system dependencies including netcat
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl netcat-openbsd build-essential libglib2.0-0 libnss3 libgconf-2-4 \
     libx11-xcb1 libxcomposite1 libxcursor1 libxi6 libxtst6 \
     libxrandr2 libasound2 libpangocairo-1.0-0 libatk1.0-0 \
     libatk-bridge2.0-0 libcups2 && \
     rm -rf /var/lib/apt/lists/*
+
+# Install hf_xet
+RUN pip install hf_xet
 
 # Install Poetry
 ENV POETRY_VERSION=1.8.2
@@ -16,11 +19,14 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-root --no-ansi
-
+# Copy ALL project files first
 COPY . .
 
+# Install dependencies
+RUN poetry lock
+RUN poetry install --no-root --no-ansi
+
+# Make wait-for-it executable
 RUN chmod +x wait-for-it.sh
 
 # Default entrypoint will be overridden per service
