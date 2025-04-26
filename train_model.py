@@ -43,12 +43,10 @@ def train_model(model, train_dataset, val_dataset):
     """Train the model using Hugging Face Trainer API"""
     training_args = TrainingArguments(
         output_dir="./results",
-        evaluation_strategy="epoch",
-        save_strategy="epoch",
         logging_dir="./logs",
         learning_rate=2e-5,
-        per_device_train_batch_size=8,
-        per_device_eval_batch_size=8,
+        per_device_train_batch_size=4,
+        per_device_eval_batch_size=4,
         num_train_epochs=3,
         weight_decay=0.01,
         save_total_limit=2

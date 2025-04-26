@@ -36,7 +36,7 @@ services:
       - GRID_URL=http://selenium-hub:4444/wd/hub
     volumes:
       - ./data:/app/data
-    command: ["python", "gradireland_scraper.py"]
+    command: ["conda", "run", "-n", "scraper-env", "python", "gradireland_scraper.py"]
     networks:
       - scraper-net
 
@@ -46,7 +46,7 @@ services:
       - gradireland-scraper
     volumes:
       - ./data:/app/data
-    command: ["python", "train_model.py"]
+    command: ["conda", "run", "-n", "scraper-env", "python", "train_model.py"]
     networks:
       - scraper-net
 
@@ -56,7 +56,7 @@ services:
       - model-trainer
     environment:
       - GRID_URL=http://selenium-hub:4444/wd/hub
-    command: ["python", "scraper.py"]
+    command: ["conda", "run", "-n", "scraper-env", "python", "scraper.py"]
     networks:
       - scraper-net
 

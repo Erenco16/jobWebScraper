@@ -1,0 +1,11 @@
+torch==2.7.0+cpu
+torchvision==0.20.1
+torchaudio==2.7.0
+transformers==4.51.3
+datasets==2.19.0
+scikit-learn==1.6.1
+selenium==4.31.0
+requests==2.32.3
+beautifulsoup4==4.13.4
+hf_xet
+accelerate==0.28.0
